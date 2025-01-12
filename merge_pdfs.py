@@ -47,16 +47,23 @@ def process_zip(zip_file, output_folder, delete_zips=False):
         shutil.rmtree(os.path.join(output_folder, f"temp_{book_name}"), ignore_errors=True)
 
 
-def merge_and_cleanup_zip_files(zip_folder, delete_zips):
+def merge_and_cleanup_zip_files(zip_folder, output_folder, delete_zips):
     for root, _, files in os.walk(zip_folder):
         for file in files:
             if file.endswith('.zip'):
                 zip_file_path = os.path.join(root, file)
-                process_zip(zip_file_path, root, delete_zips)
+                output_root = root.replace(zip_folder, output_folder)
+                print(root, file, output_root)
+                if not os.path.exists(output_root):
+                    os.makedirs(output_root)
+                    process_zip(zip_file_path, output_root, delete_zips)
+                else:
+                    print("Skipping: ", zip_file_path, " as it is already processed")
 
 if __name__ == "__main__":
     # Replace with the path to the folder containing the zip files
     zip_folder_path = "downloads"
+    output_folder_path = "merged_pdfs"
     # Whether to delete the original zips after merging pdfs
-    delete_zips = True
-    merge_and_cleanup_zip_files(zip_folder_path, delete_zips)
+    delete_zips = False
+    merge_and_cleanup_zip_files(zip_folder_path, output_folder_path, delete_zips)

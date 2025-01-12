@@ -1,2 +1,5 @@
 *.zip
 *.pdf
+venv/
+cleaned_data/*
+extracted_data/*
