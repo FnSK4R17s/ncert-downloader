@@ -3,3 +3,4 @@
 venv/
 cleaned_data/*
 extracted_data/*
+exports/*
